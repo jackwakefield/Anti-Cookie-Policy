@@ -1,0 +1,28 @@
+/*
+ * CooCooCookies
+ * https://github.com/xadet/CooCooCookies
+ *
+ * Includes Sizzle.js
+ * http://sizzlejs.com/
+ *
+ * Includes jsuri.js
+ * https://code.google.com/p/jsuri/
+ *
+ * Copyright 2012 Jack Wakefield
+ * Released under the MIT license
+ */
+
+{
+    "name": "CooCooCookies",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "Automatically accept and hide cookie notifications.",
+    "background" : {
+        "scripts": ["jsuri.js", "cookie-entries.js", "background.js"]
+    },
+    "permissions": [
+        "<all_urls>",
+        "webNavigation",
+        "tabs"
+    ]
+}
