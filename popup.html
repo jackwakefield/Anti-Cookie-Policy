@@ -1,0 +1,30 @@
+<html>
+<head>
+<link type="text/css" href="popup/foundation.min.css" rel="stylesheet">
+<script type="text/javascript" src="popup/jquery.js"></script>
+<script type="text/javascript" src="popup/jquery.foundation.mediaQueryToggle.js"></script>
+<script type="text/javascript" src="popup/jquery.foundation.buttons.js"></script>
+<script type="text/javascript" src="popup/jquery.foundation.forms.js"></script>
+<script type="text/javascript" src="popup/modernizr.foundation.js"></script>
+<script type="text/javascript" src="popup/popup.js"></script>
+<style>
+body {
+    min-width: 300px;
+    padding: 0 10px;
+}
+</style>
+</head>
+<body>
+    <h5>Report a website</h5>
+    <p>Please report any websites you encounter with a cookie notification which isn't handled by the extension using the form below.</p>
+    <form>
+        <div id="domain-row" class="row">
+            <label for="domain-input">Domain</label>
+            <input type="text" name="domain" id="domain-input" placeholder="example.com">
+        </div>
+        <div class="row">
+            <button id="send-email" class="button">Send Email</button>
+        </div>
+    </form>
+</body>
+</html>

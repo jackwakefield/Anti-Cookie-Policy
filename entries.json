@@ -202,5 +202,8 @@
     },
     "fasthosts.co.uk": {
         "element": "#cookie #accept"
+    },
+    "rockpapershotgun.com": {
+        "element": "#ecd_opt_in_submit"
     }
 }
