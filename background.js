@@ -12,99 +12,144 @@
  * Released under the MIT license
  */
 
-// create an array of hosts from the cookie elements
+// a list of generic subdomains to strip from hosts
+var genericSubdomains = [ "www.", "www1." ];
+var cookieEntries = {};
+
+var xhr = new XMLHttpRequest();
+
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+        cookieEntries = JSON.parse(xhr.responseText);
+        addListeners();
+    }
+};
+
+xhr.open("GET", chrome.extension.getURL("/entries.json"), false);
+
+try {
+    xhr.send();
+} catch(e) {
+    console.error("Unable to load entries.json");
+}
+
+// populate the url filter array of hosts from the cookie elements
 // to ensure unneeded onCompleted events are not fired
 // for the hosts we are not monitoring
-var urlFilter = [];
+function createUrlFilter(triggerType) {
+    var urlFilter = [];
 
-for (var host in cookieEntries) {
-	urlFilter.push({
-		hostSuffix: host
-	});
+    for (var host in cookieEntries) {
+        var cookieEntry = cookieEntries[host];
+        var trigger = typeof cookieEntry.trigger !== "undefined" ? cookieEntry.trigger : "ready";
+
+        if (trigger == triggerType) {
+            urlFilter.push({
+                hostSuffix: host
+            });
+        }
+    }
+
+    return urlFilter;
 }
 
 // execute a script on the specified tab to simulate
 // a click the first element found to be matching the given path
 function clickElement(tabId, element) {
-	chrome.tabs.executeScript(tabId, {
-		allFrames: true,
-		code: "" +
-		"var matchingElements = Sizzle('" + element + "');" +
-		"if (matchingElements.length > 0) {" +
-		"	var element = matchingElements[0];" +
-		"	element.click();" +
-		"}"
-	});
+    chrome.tabs.executeScript(tabId, {
+        allFrames: true,
+        code: "" +
+        "var matchingElements = Sizzle('" + element + "');" +
+        "if (matchingElements.length > 0) {" +
+        "   var element = matchingElements[0];" +
+        "   element.click();" +
+        "}"
+    });
 }
 
 // execute a script on the specified tab to remove
 // the first element found to be matching the given path
 function removeElement(tabId, element) {
-	chrome.tabs.executeScript(tabId, {
-		allFrames: true,
-		code: "" +
-		"var matchingElements = Sizzle('" + element + "');" +
-		"if (matchingElements.length > 0) {" +
-		"	var element = matchingElements[0];" +
-		" 	if (typeof element.parentNode !== 'undefined') {" +
-		"		element.parentNode.removeChild(element);" +
-		" 	}" +
-		"}"
-	});
+    chrome.tabs.executeScript(tabId, {
+        allFrames: true,
+        code: "" +
+        "var matchingElements = Sizzle('" + element + "');" +
+        "if (matchingElements.length > 0) {" +
+        "   var element = matchingElements[0];" +
+        "   if (typeof element.parentNode !== 'undefined') {" +
+        "       element.parentNode.removeChild(element);" +
+        "   }" +
+        "}"
+    });
 }
 
-chrome.webNavigation.onCompleted.addListener(function(details) {
-	var uri = new Uri(details.url);
-	var host = uri.host();
+function handleEvent(details) {
+    var uri = new Uri(details.url);
+    var host = uri.host();
 
-	// strip out the www. subdomain if it's present
-	// would be preferable to strip out any possible subdomain
-	// but it's tricky to do
-	if (host.indexOf("www.") == 0) {
-		host = host.substring(4);
-	}
+    // strip out the lits of generic subdomains from the host
+    for (var i = 0; i < genericSubdomains.length; i++) {
+        var subdomain = genericSubdomains[i];
 
-	// ensure the determined host exists in the entries array
-	// perhaps the url passed the filter but the host we determined
-	// is incorrect, most likely due to a subdomain
-	if (host in cookieEntries) {
-		var tabId = details.tabId;
+        if (host.indexOf(subdomain) == 0) {
+            host = host.substring(subdomain.length);
+        }
+    }
 
-		var cookieEntry = cookieEntries[host];
-		var element = cookieEntry.element;
-		var action = typeof cookieEntry.action !== "undefined" ? cookieEntry.action : "click";
-		var delay = typeof cookieEntry.delay !== "undefined" ? cookieEntry.delay : false;
+    // ensure the determined host exists in the entries array
+    // perhaps the url passed the filter but the host determined
+    // is incorrect, most likely due to a subdomain that hasn't
+    // been stripped out
+    if (host in cookieEntries) {
+        var tabId = details.tabId;
 
-		// inject the sizzle.js script into the page
-		// once the script has loaded, determine which action
-		// to take
-		chrome.tabs.executeScript(tabId, {
-			allFrames: true,
-			file: "sizzle.js"
-		}, function() {
-			if (action == "click") { // simulate a click on the element
-				if (!delay) {
-					// immediately click the element no delay has been specified
-					clickElement(tabId, element);
-				} else {
-					// click the element after the specified amount of milliseconds have passed
-					setTimeout(function() {
-						clickElement(tabId, element);
-					}, delay);
-				}
-			} else if (action == "remove") { // remove the element from the parent
-				if (!delay) {
-					// immediately remove the element as no delay has been specified
-					removeElement(tabId, element);
-				} else {
-					// remove the element after the specified amount of milliseconds have passed
-					setTimeout(function() {
-						removeElement(tabId, element);
-					}, delay);
-				}
-			}
-		});
-	}
-}, {
-	url: urlFilter
-});
+        var cookieEntry = cookieEntries[host];
+        var element = cookieEntry.element;
+        var action = typeof cookieEntry.action !== "undefined" ? cookieEntry.action : "click";
+        var delay = typeof cookieEntry.delay !== "undefined" ? cookieEntry.delay : false;
+
+        // inject the sizzle.js script into the page
+        // once the script has loaded, determine which action
+        // to take
+        chrome.tabs.executeScript(tabId, {
+            allFrames: true,
+            file: "libs/sizzle.js"
+        }, function() {
+            if (action == "click") { // simulate a click on the element
+                if (!delay) {
+                    // immediately click the element as no delay has been specified
+                    clickElement(tabId, element);
+                } else {
+                    // click the element after the specified amount of milliseconds have passed
+                    setTimeout(function() {
+                        clickElement(tabId, element);
+                    }, delay);
+                }
+            } else if (action == "remove") { // remove the element from the parent
+                if (!delay) {
+                    // immediately remove the element as no delay has been specified
+                    removeElement(tabId, element);
+                } else {
+                    // remove the element after the specified amount of milliseconds have passed
+                    setTimeout(function() {
+                        removeElement(tabId, element);
+                    }, delay);
+                }
+            }
+        });
+    }
+}
+
+function addListeners() {
+    chrome.webNavigation.onDOMContentLoaded.addListener(function(details) {
+        handleEvent(details);
+    }, {
+        url: createUrlFilter("ready")
+    });
+
+    chrome.webNavigation.onCompleted.addListener(function(details) {
+        handleEvent(details);
+    }, {
+        url: createUrlFilter("loaded")
+    });
+}

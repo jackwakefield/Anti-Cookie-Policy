@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "description": "Automatically accept and hide cookie notifications.",
     "background" : {
-        "scripts": ["jsuri.js", "cookie-entries.js", "background.js"]
+        "scripts": ["libs/jsuri.js", "libs/json3.js", "background.js"]
     },
     "permissions": [
         "<all_urls>",

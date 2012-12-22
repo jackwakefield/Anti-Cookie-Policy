@@ -1,0 +1,206 @@
+{
+    "bbc.co.uk": {
+        "element": "#bbccookies-continue-button"
+    },
+    "uk.yahoo.com": {
+        "element": "#default-p_30345150 .y-wshade-close-btn",
+        "delay": 250
+    },
+    "guardian.co.uk": {
+        "element": "#header .identity-noticebar .hide-bar"
+    },
+    "uk.msn.com": {
+        "element": "#popup1 .tcls",
+        "trigger": "loaded"
+    },
+    "tesco.com": {
+        "element": "#cpAccept"
+    },
+    "hsbc.co.uk": {
+        "element": "#disclaimer_banner",
+        "action": "remove"
+    },
+    "rightmove.co.uk": {
+        "element": "#cookiemodalbar-button-text"
+    },
+    "barclays.co.uk": {
+        "element": ".header .otm",
+        "action": "remove"
+    },
+    "natwest.com": {
+        "element": "#EUDirectiveCookiePanel",
+        "action": "remove"
+    },
+    "johnlewis.com": {
+        "element": "#opNoNo"
+    },
+    "bt.com": {
+        "element": "#cookieActions .lastButton"
+    },
+    "moneysavingexpert.com": {
+        "element": "#alertBar #close"
+    },
+    "aol.co.uk": {
+        "element": "#ooCont .closeBtn"
+    },
+    "royalmail.com": {
+        "element": "#block-cookie_policy-0:parent",
+        "action": "remove"
+    },
+    "gov.uk": {
+        "element": "#global-cookie-message",
+        "action": "remove"
+    },
+    "channel4.com": {
+        "element": ".cookie-policy-alert .hide-alert"
+    },
+    "orange.co.uk": {
+        "element": ".cookieButtonClose"
+    },
+    "premierleague.com": {
+        "element": "#cookies-verify",
+        "action": "remove"
+    },
+    "nationwide.co.uk": {
+        "element": "#cnClose"
+    },
+    "tfl.gov.uk": {
+        "element": ".cookies-prompt-btn"
+    },
+    "yell.com": {
+        "element": ".cookie-notification .close"
+    },
+    "pirateparty.org.uk": {
+        "element": "#confirmCookiePolicy center a"
+    },
+    "huffingtonpost.co.uk": {
+        "element": "#usrConsent .closeBtn"
+    },
+    "uk.affiliatewindow.com": {
+        "element": "#eprivacy button",
+        "trigger": "loaded"
+    },
+    "reed.co.uk": {
+        "element": "#topWrapper .notification",
+        "action": "remove"
+    },
+    "betfair.com": {
+        "element": ".footer-cookies-policy",
+        "action": "remove"
+    },
+    "statcounter.com": {
+        "element": "#cookie-info",
+        "action": "remove"
+    },
+    "mirror.co.uk": {
+        "element": "#cookieNotification",
+        "action": "remove"
+    },
+    "uk.ign.com": {
+        "element": "#policyNotice .close-btn a"
+    },
+    "1and1.co.uk": {
+        "element": "#cookies-close",
+        "trigger": "loaded",
+        "delay": 250
+    },
+    "barclaycard.co.uk": {
+        "element": ".cookiesMessageBanner",
+        "action": "remove"
+    },
+    "firstdirect.com": {
+        "element": ".eucookie_disclaimer",
+        "action": "remove"
+    },
+    "diy.com": {
+        "element": "#cookie-bar",
+        "action": "remove"
+    },
+    "techradar.com": {
+        "element": "#fp_cookieMessageCloseButton",
+        "trigger": "loaded"
+    },
+    "moneysupermarket.com": {
+        "element": "#cookieDirective .cd-close",
+        "trigger": "loaded"
+    },
+    "newsnow.co.uk": {
+        "element": ".cookie_close_button"
+    },
+    "mgid.com": {
+        "element": "#cookies-popup .close"
+    },
+    "rbs.co.uk": {
+        "element": "#EUDirectiveCookiePanel",
+        "action": "remove"
+    },
+    "companieshouse.gov.uk": {
+        "element": "#cookieInfo",
+        "action": "remove"
+    },
+    "ft.com": {
+        "element": "#cookie-consent-overlay button"
+    },
+    "samsung.com": {
+        "element": ".cookie_notice .closer button"
+    },
+    "which.co.uk": {
+        "element": "#eprivacy-accept-link",
+        "trigger": "loaded",
+        "delay": 1000
+    },
+    "ea.com": {
+        "element": "#te-consent",
+        "action": "remove"
+    },
+    "miniclip.com": {
+        "element": "#eu-cookie-close"
+    },
+    "worldpay.com": {
+        "element": "#cccwr .ccc-close"
+    },
+    "just-eat.co.uk": {
+        "element": "#cookieButton"
+    },
+    "t-mobile.co.uk": {
+        "element": "#cookiesMessage .cookies-close"
+    },
+    "tradedoubler.com": {
+        "element": ".cookie-prompt .close"
+    },
+    "last.fm": {
+        "element": "#cookie-law-bar .cookie-law-bar-dismiss"
+    },
+    "bbcgoodfood.com": {
+        "element": "#cookie-policy-container .close-cookie-mg"
+    },
+    "lastminute.com": {
+        "element": "#cookie_tab_main .cookie_tab_close a",
+        "trigger": "loaded"
+    },
+    "goal.com": {
+        "element": ".cookie-info",
+        "action": "remove"
+    },
+    "goal.com": {
+        "element": ".cookie-info",
+        "action": "remove"
+    },
+    "laterooms.com": {
+        "element": "#cookieClose"
+    },
+    "waitrose.com": {
+        "element": "#topEuCookieAlert",
+        "action": "remove"
+    },
+    "monster.co.uk": {
+        "element": "#intMsgCookies .closeMsg"
+    },
+    "uk.match.com": {
+        "element": "#i-cookie",
+        "action": "remove"
+    },
+    "fasthosts.co.uk": {
+        "element": "#cookie #accept"
+    }
+}
