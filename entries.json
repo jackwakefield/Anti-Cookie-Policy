@@ -205,5 +205,45 @@
     },
     "rockpapershotgun.com": {
         "element": "#ecd_opt_in_submit"
+    },
+    "cineworld.co.uk": {
+        "element": ".cookie .primary"
+    },
+    "giffgaff.com": {
+        "element": "#cookies-modal .accept"
+    },
+    "uk.gamespot.com": {
+        "element": "#cookiePolicy .close"
+    },
+    "parcelforce.com": {
+        "element": "#cookie_policy-0",
+        "action": "remove"
+    },
+    "postoffice.co.uk": {
+        "element": "#cookiereports-badge",
+        "action": "remove"
+    },
+    "channel5.com": {
+        "element": "#cookie-close-button"
+    },
+    "radiotimes.com": {
+        "element": "#imPolicycookiemessage",
+        "action": "remove"
+    },
+    "clothingattesco.com": {
+        "element": "#tesco_cookie_accept"
+    },
+    "bloomberg.com": {
+        "element": "#consent-track .close-consent-track",
+        "delay": 2000
+    },
+    "liverpoolfc.com": {
+        "element": "#cn-except"
+    },
+    "moonpig.com": {
+        "element": ".customerCookies .acceptCookies"
+    },
+    "zdnet.com": {
+        "element": "#cookiePolicy .close"
     }
 }
