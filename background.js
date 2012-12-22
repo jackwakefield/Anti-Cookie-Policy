@@ -8,6 +8,9 @@
  * Includes jsuri.js
  * https://code.google.com/p/jsuri/
  *
+ * Includes json3.js
+ * http://bestiejs.github.com/json3/
+ *
  * Copyright 2012 Jack Wakefield
  * Released under the MIT license
  */
@@ -16,6 +19,7 @@
 var genericSubdomains = [ "www.", "www1." ];
 var cookieEntries = {};
 
+// create an AJAX request to parse the cookie entries
 var xhr = new XMLHttpRequest();
 
 xhr.onreadystatechange = function() {
@@ -33,9 +37,9 @@ try {
     console.error("Unable to load entries.json");
 }
 
-// populate the url filter array of hosts from the cookie elements
-// to ensure unneeded onCompleted events are not fired
-// for the hosts we are not monitoring
+// populate the url filter array of hosts from the
+// cookie elements to ensure unneeded events are not
+// fired for the hosts we are not monitoring
 function createUrlFilter(triggerType) {
     var urlFilter = [];
 
@@ -83,6 +87,9 @@ function removeElement(tabId, element) {
     });
 }
 
+// handles the event for the loaded page ensuring
+// a cookie entry is found for the host and processes
+// the action specified in the entry
 function handleEvent(details) {
     var uri = new Uri(details.url);
     var host = uri.host();
@@ -140,6 +147,7 @@ function handleEvent(details) {
     }
 }
 
+// adds the listener callbacks for the events needed
 function addListeners() {
     chrome.webNavigation.onDOMContentLoaded.addListener(function(details) {
         handleEvent(details);
