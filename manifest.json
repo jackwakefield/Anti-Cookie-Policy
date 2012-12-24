@@ -1,6 +1,6 @@
 {
     "name": "CooCooCookies",
-    "version": "1.0",
+    "version": "1.0.1",
     "manifest_version": 2,
     "description": "Automatically accept and hide cookie notifications.",
     "browser_action": {
