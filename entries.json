@@ -4,7 +4,7 @@
     },
     "uk.yahoo.com": {
         "element": "#default-p_30345150 .y-wshade-close-btn",
-        "delay": 250
+        "delay": 1000
     },
     "guardian.co.uk": {
         "element": "#header .identity-noticebar .hide-bar"
@@ -241,5 +241,95 @@
     },
     "zdnet.com": {
         "element": "#cookiePolicy .close"
+    },
+    "merckmanual.nl": {
+        "element": ".cookies ~ form .button",
+        "delay": 1000
+    },
+    "ns.nl": {
+        "element": "#dialog-cookie:visible .allow"
+    },
+    "halfords.nl": [
+        {
+            "element": "#s2m_cookies_optin_dialog .s2m_cookies_optin_dialog_button"
+        },
+        {
+            "element": "#s2m_cookies_optin_dialog_settings_controls .s2m_cookies_optin_dialog_button"
+        }
+    ],
+    "t-mobile.nl": {
+        "element": "#TMobile_nl_WebPortals_UI_ApplicationComponents_CookieSettings_CookieSettingsController_SimpleSaveButton",
+        "trigger": "loaded",
+        "delay": 500
+    },
+    "speurders.nl": {
+        "element": "#Accept-and-continue-to-Website",
+        "trigger": "loaded",
+        "delay": 500
+    },
+    "nu.nl": {
+        "element": ".consent-bar-cookiebar-button",
+        "trigger": "loaded",
+        "delay": 500
+    },
+    "crucial.com": {
+        "element": ".cookieInfo .close",
+        "trigger": "loaded",
+        "delay": 500
+    },
+    "cookies.publiekeomroep.nl": {
+        "element": ".frame .accept-link"
+    },
+    "cookies.publiekeomroep.nl": {
+        "element": ".frame .accept-link"
+    },
+    "beslist.nl": {
+        "element": "#cookiepolicy-accept"
+    },
+    "saturn.nl": {
+        "element": "#btn_cookie_accept a"
+    },
+    "bcc.nl": [
+        {
+            "element": "#s2m_cookies_optin_dialog .s2m_cookies_optin_dialog_button"
+        },
+        {
+            "element": "#s2m_cookies_optin_dialog_settings_controls .s2m_cookies_optin_dialog_button"
+        }
+    ],
+    "marktplaats.nl": {
+        "element": ".cookie-opt-out-close"
+    },
+    "wetransfer.com": {
+        "element": "#accepting"
+    },
+    "volkskrant.nl": {
+        "element": ".cs_close"
+    },
+    "weeronline.nl": {
+        "element": "#info-bar .accept"
+    },
+    "allianz.nl": {
+        "element": "#cc-approve-button-thissite"
+    },
+    "berekenhet.nl": {
+        "element": "#cookiestat td:nth-child(2) span"
+    },
+    "tweakers.net": {
+        "element": "#cookieBar button[value=accept]"
+    },
+    "it-contracts.nl": {
+        "element": "#cookie a:nth-child(2)"
+    },
+    "belastingdienst.nl": [
+        {
+            "element": ".ck-accept a"
+        },
+        {
+            "element": "#ck-options a"
+        }
+    ],
+    "bing.com": {
+        "element": "#thp_notf_div .hpn_top_close"
     }
 }

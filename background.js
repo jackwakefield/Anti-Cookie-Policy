@@ -1,5 +1,5 @@
 /*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, unused:true, curly:true, browser:true, devel:true, indent:4, maxerr:50, white:false */
-/*global chrome Uri */
+/*global chrome, Uri */
 /*
  * CooCooCookies
  * https://github.com/xadet/CooCooCookies
@@ -13,7 +13,7 @@
  * Includes json3.js
  * http://bestiejs.github.com/json3/
  *
- * Copyright 2012 Jack Wakefield
+ * Copyright 2013 Jack Wakefield
  * Released under the MIT license
  */
 (function () {
@@ -39,16 +39,20 @@
         console.error("Unable to load entries.json");
     }
 
-    // populate the url filter array of hosts from the
-    // cookie elements to ensure unneeded events are not
-    // fired for the hosts we are not monitoring
+    /**
+     * Creates a  url filter of hosts from the cookie elements to ensure unneeded events are not
+     * fired for the hosts not being monitored..
+     * @param  {string triggerType The trigger type, either loaded or ready.
+     * @return {array} The URL filter array.
+     */
     function createUrlFilter(triggerType) {
         var urlFilter = [];
 
         for (var host in cookieEntries) {
             if (cookieEntries.hasOwnProperty(host)) {
                 var cookieEntry = cookieEntries[host];
-                var trigger = typeof cookieEntry.trigger !== "undefined" ? cookieEntry.trigger : "ready";
+                var trigger = typeof cookieEntry.trigger !== "undefined" ? cookieEntry.trigger
+                    : "ready";
 
                 if (trigger === triggerType) {
                     urlFilter.push({
@@ -61,8 +65,12 @@
         return urlFilter;
     }
 
-    // execute a script on the specified tab to simulate
-    // a click the first element found to be matching the given path
+    /**
+     * Executes a script on the specified tab to simulate a click the first element found to be
+     * matching the given path.
+     * @param {int} tabId The tab ID on which to execute the script.
+     * @param {string} element The element path to execute the click even upon.
+     */
     function clickElement(tabId, element) {
         chrome.tabs.executeScript(tabId, {
             allFrames: true,
@@ -75,8 +83,12 @@
         });
     }
 
-    // execute a script on the specified tab to remove
-    // the first element found to be matching the given path
+    /**
+     * Executes a script on the specified tab to remove the first element found to be matching the
+     * given path.
+     * @param {int} tabId The tab ID on which to execute the script.
+     * @param {string} element The path of the element to remove.
+     */
     function removeElement(tabId, element) {
         chrome.tabs.executeScript(tabId, {
             allFrames: true,
@@ -91,9 +103,35 @@
         });
     }
 
-    // handles the event for the loaded page ensuring
-    // a cookie entry is found for the host and processes
-    // the action specified in the entry
+    /**
+     * Executes the relevant on the specified element using the given options.
+     * @param {int} tabId The tab ID on which to execute the event.
+     * @param {string} element The element path on which to execute the event.
+     * @param {string} action The action type, either click or remove.
+     * @param {int} delay An optional delay in milliseconds.
+     */
+    function handleElement(tabId, element, action, delay) {
+        var actionCallback = null;
+
+        if (action === "click") { // simulate a click on the element
+            actionCallback = clickElement;
+        } else if (action === "remove") { // remove the element from the parent
+            actionCallback = removeElement;
+        }
+
+        if (!delay) {
+            actionCallback(tabId, element);
+        } else {
+            setTimeout(function() {
+                actionCallback(tabId, element);
+            }, delay);
+        }
+    }
+
+    /**
+     * Handles the given window event.
+     * @param {object} details The event details.
+     */
     function handleEvent(details) {
         var uri = new Uri(details.url);
         var host = uri.host();
@@ -111,49 +149,59 @@
         // perhaps the url passed the filter but the host determined
         // is incorrect, most likely due to a subdomain that hasn't
         // been stripped out
-        if (host in cookieEntries) {
-            if (cookieEntries.hasOwnProperty(host)) {
-                var tabId = details.tabId;
+        if (cookieEntries.hasOwnProperty(host)) {
+            var tabId = details.tabId;
+            var entry = cookieEntries[host];
 
-                var cookieEntry = cookieEntries[host];
-                var element = cookieEntry.element;
-                var action = typeof cookieEntry.action !== "undefined" ? cookieEntry.action : "click";
-                var delay = typeof cookieEntry.delay !== "undefined" ? cookieEntry.delay : false;
-
-                // inject the sizzle.js script into the page
-                // once the script has loaded, determine which action
-                // to take
+            // inject the sizzle.js script into the page
+            // once the script has loaded, determine which action
+            // to take
+            chrome.tabs.executeScript(tabId, {
+                allFrames: true,
+                file: "libs/sizzle.js"
+            }, function() {
+                // create the :visible Sizzle selector
                 chrome.tabs.executeScript(tabId, {
                     allFrames: true,
-                    file: "libs/sizzle.js"
-                }, function() {
-                    if (action === "click") { // simulate a click on the element
-                        if (!delay) {
-                            // immediately click the element as no delay has been specified
-                            clickElement(tabId, element);
-                        } else {
-                            // click the element after the specified amount of milliseconds have passed
-                            setTimeout(function() {
-                                clickElement(tabId, element);
-                            }, delay);
-                        }
-                    } else if (action === "remove") { // remove the element from the parent
-                        if (!delay) {
-                            // immediately remove the element as no delay has been specified
-                            removeElement(tabId, element);
-                        } else {
-                            // remove the element after the specified amount of milliseconds have passed
-                            setTimeout(function() {
-                                removeElement(tabId, element);
-                            }, delay);
-                        }
-                    }
+                    code: "" +
+                    "Sizzle.selectors.pseudos.visible =" +
+                    "    Sizzle.selectors.createPseudo(function(selector) {" +
+                    "    var matcher = Sizzle.compile(selector);" +
+                    "    return function(elem) {" +
+                    "        return elem.style.display != \"none\";" +
+                    "    };" +
+                    "});"
                 });
-            }
+
+                var cookieEntry;
+
+                // add the entry to a new array if it isn't one
+                if (!(entry instanceof Array)) {
+                    cookieEntry = entry;
+                    entry = [cookieEntry];
+                }
+
+                // loop through each cookie entry
+                for (var index in entry) {
+                    if (entry.hasOwnProperty(index)) {
+                        cookieEntry = entry[index];
+
+                        var element = cookieEntry.element;
+                        var action = typeof cookieEntry.action !== "undefined" ?
+                            cookieEntry.action : "click";
+                        var delay = typeof cookieEntry.delay !== "undefined" ?
+                            cookieEntry.delay : false;
+
+                        handleElement(tabId, element, action, delay);
+                    }
+                }
+            });
         }
     }
 
-    // adds the listener callbacks for the events needed
+    /**
+     * Add the listener callbacks for the required events.
+     */
     function addListeners() {
         chrome.webNavigation.onDOMContentLoaded.addListener(function(details) {
             handleEvent(details);

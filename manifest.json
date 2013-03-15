@@ -1,5 +1,5 @@
 {
-    "name": "CooCooCookies",
+    "name": "Anti-Cookie Policy",
     "version": "1.0.1",
     "manifest_version": 2,
     "description": "Automatically accept and hide cookie notifications.",
@@ -8,7 +8,7 @@
             "19": "icon19.png",
             "38": "icon38.png"
         },
-        "default_title": "CooCooCookies",
+        "default_title": "Anti-Cookie Policy",
         "default_popup": "popup.html"
     },
     "icons": {
