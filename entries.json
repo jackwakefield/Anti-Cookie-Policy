@@ -280,14 +280,8 @@
     "cookies.publiekeomroep.nl": {
         "element": ".frame .accept-link"
     },
-    "cookies.publiekeomroep.nl": {
-        "element": ".frame .accept-link"
-    },
     "beslist.nl": {
         "element": "#cookiepolicy-accept"
-    },
-    "saturn.nl": {
-        "element": "#btn_cookie_accept a"
     },
     "bcc.nl": [
         {
